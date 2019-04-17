@@ -50,6 +50,7 @@ fn_display_usage() {
 	echo "                        After 365 days keep one backup every 30 days."
 	echo " --no-auto-expire       Disable automatically deleting backups when out of space. Instead an error"
 	echo "                        is logged, and the backup is aborted."
+	echo " --compress             Use --compress rsync flag"
 	echo ""
 	echo "For more detailed help, please see the README file:"
 	echo ""
@@ -248,7 +249,7 @@ AUTO_DELETE_LOG="1"
 EXPIRATION_STRATEGY="1:1 30:7 365:30"
 AUTO_EXPIRE="1"
 
-RSYNC_FLAGS="-D --compress --numeric-ids --links --hard-links --one-file-system --itemize-changes --times --recursive --perms --owner --group --stats --human-readable"
+RSYNC_FLAGS="-D --numeric-ids --links --hard-links --one-file-system --itemize-changes --times --recursive --perms --owner --group --stats --human-readable"
 
 while :; do
 	case $1 in
@@ -276,6 +277,11 @@ while :; do
 		--rsync-append-flags)
 			shift
 			RSYNC_FLAGS="$RSYNC_FLAGS $1"
+			;;
+		--compress)
+			shift
+			RSYNC_FLAGS="$RSYNC_FLAGS --compress"
+			exit
 			;;
 		--strategy)
 			shift
